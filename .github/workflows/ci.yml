@@ -25,7 +25,7 @@ jobs:
         run: npm run build
       - name: deploy to staging
         if: github.event_name == 'push'
-        run: npx surge --project ./build --domain rabid-design.surge.sh
+        run: npx surge --project ./build --domain rabid-design.surge.sh --token ${{ secrets.SURGE_TOKEN }}
         env:
           SURGE_LOGIN: $ {{ secrets.SURGE_LOGIN }}
           SURGE_TOKEN: $ {{ secrets.SURGE_TOKEN }}

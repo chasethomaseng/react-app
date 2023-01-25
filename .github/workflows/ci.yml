@@ -40,6 +40,7 @@ jobs:
         with:
           name: build
           path: build
+        if: github.event_name == 'push'
       - name: deploy to staging
         if: github.event_name == 'push'
         run: npx surge --project ./build --domain rabid-design.surge.sh --token ${{ secrets.SURGE_TOKEN }}

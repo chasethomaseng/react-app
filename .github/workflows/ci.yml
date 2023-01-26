@@ -45,7 +45,7 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           zip -r build.zip ./build
-          zip -r coverage.zip /coverage
+          zip -r coverage.zip ./coverage
       - name: echo vars for testing
         run: |
           echo ${{github.event_name}}

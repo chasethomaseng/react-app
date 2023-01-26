@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      SURGE_LOGIN: $ {{ secrets.SURGE_LOGIN }}
+      SURGE_TOKEN: $ {{ secrets.SURGE_TOKEN }}
     steps:
       - uses: actions/checkout@v2
       - name: cache node_modules
@@ -56,8 +59,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: deploy to staging
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
         run: npx surge --project ./build --domain rabid-design.surge.sh --token ${{ secrets.SURGE_TOKEN }}
+      - name: deploy to prod
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: npx surge --project ./build --domain warlike-level-prod.surge.sh --token ${{ secrets.SURGE_TOKEN }}
+      - name: upload coverage reports
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: npx codecov
         env:
-          SURGE_LOGIN: $ {{ secrets.SURGE_LOGIN }}
-          SURGE_TOKEN: $ {{ secrets.SURGE_TOKEN }}
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN}}

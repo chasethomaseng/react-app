@@ -42,7 +42,7 @@ jobs:
           path: build
         if: github.event_name == 'push'
       - name: echo vars for testing
-        run: | 
+        run: |
           echo ${{github.event_name}}
           echo ${{github.ref }}
       - name: create a release
